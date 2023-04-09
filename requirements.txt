@@ -1,0 +1,6 @@
+numpy==1.22.0
+pandas==1.4.2
+simpletransformers==0.63.9
+transformers==4.27.3
+transformers_interpret==0.10.0
+streamlit
