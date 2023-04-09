@@ -10,4 +10,4 @@ pinned: false
 ---
 
 # persplain
-Explainable personality recognition using interpretable transformer learning and traditional machine learning models.
+Explainable personality recognition using interpretable transformer learning models.
