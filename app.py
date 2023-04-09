@@ -9,7 +9,7 @@ traits = ["Openness to Experience", "Conscientiousness", "Extraversion", "Agreea
 
 short_traits = ["o", "c", "e", "a", "n"]
 
-@st.cache_resource
+@st.experimental_memo
 def load_explainer():
 
     print("Loading model...")
@@ -30,7 +30,7 @@ def load_explainer():
 
     return explainer
 
-@st.cache_data
+@st.experimental_memo
 def explain(text, _explainer):
     
     attributions = _explainer(text)
@@ -45,16 +45,17 @@ def attributions_to_html(attributions):
   html = ""
   for word, attr in attributions:
       
-      if word in ["<s>", "</s>"]:
+    if word in ["<s>", "</s>"]:
         continue
-      
-      attr = round(attr, 2)
-      abs_attr = abs(attr)
+    
+    attr = round(attr, 2)
+    abs_attr = abs(attr)
 
-      if attr > 0: color = f"rgba(0,255,0,{abs_attr})"
-      elif attr < 0: color = f"rgba(255,0,0,{abs_attr})"
+    color = "rgba(255,255,255,0)"
+    if attr > 0: color = f"rgba(0,255,0,{abs_attr})"
+    elif attr < 0: color = f"rgba(255,0,0,{abs_attr})"
       
-      html += f'<span style="background-color: {color}" title="{str(attr)}">{word}</span> '
+    html += f'<span style="background-color: {color}" title="{str(attr)}">{word}</span> '
   
   return html
 
@@ -73,7 +74,7 @@ def main():
 
     explainer = load_explainer()
 
-    text = st.text_area(label="Input text here...", value="I really enjoying meeting people and working hard!")
+    text = st.text_area(label="Input text here...", value="I enjoy meeting people and working hard!")
 
     show_prediction = st.button("Predict Traits")
 
@@ -84,7 +85,7 @@ def main():
             explanation = explain(text, explainer)
             st.session_state.explanation = explanation
 
-    if st.session_state.text:
+    if len(st.session_state.explanation["preds"]) > 0:
 
         st.write("## Predicted Traits")
 
