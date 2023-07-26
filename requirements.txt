@@ -4,3 +4,4 @@ simpletransformers==0.63.9
 transformers==4.27.3
 transformers_interpret==0.10.0
 streamlit==1.17.0
+gradio
